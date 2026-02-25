@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#FFFFFF" />
+  <title>Stack</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css?v=1" />
+</head>
+<body>
+  <header class="appbar">
+    <button class="iconbtn" id="btnMenu" aria-label="Menu"><span class="icon-lines"></span></button>
+    <div class="brand">
+      <div class="brand-name">Stack</div>
+      <div class="brand-sub">Let's Stack W's</div>
+    </div>
+    <div class="pill streak" id="streakPill" title="Streak">0 🔥</div>
+  </header>
+
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+    <div class="menu-card">
+      <div class="menu-head">
+        <div class="menu-title">Menu</div>
+        <button class="iconbtn" id="btnCloseMenu" aria-label="Close"><span class="icon-x"></span></button>
+      </div>
+      <div class="menu-list">
+        <button class="menu-item" data-nav="home">Home</button>
+        <button class="menu-item" data-nav="workouts">Workouts</button>
+        <button class="menu-item" data-nav="nutrition">Nutrition</button>
+        <button class="menu-item" data-nav="progress">Progress</button>
+        <button class="menu-item" data-nav="settings">Settings</button>
+      </div>
+      <div class="menu-foot muted small">Tip: iPhone Safari → Share → Add to Home Screen.</div>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="panel active" id="panel-home">
+      <div class="grid home-grid">
+        <div class="card hero">
+          <div class="row between top">
+            <div>
+              <div class="h1" id="homeGreeting">Welcome, Dex</div>
+              <div class="h2">Let's Stack W's</div>
+            </div>
+            <button class="ghost" id="btnEditName" type="button">Edit</button>
+          </div>
+
+          <div class="spacer"></div>
+
+          <div class="row wrap kpis">
+            <div class="kpi"><div class="kpi-k" id="homeDate">—</div><div class="kpi-v">Today</div></div>
+            <div class="kpi"><div class="kpi-k" id="homeWorkout">Workout: —</div><div class="kpi-v">Scheduled</div></div>
+            <div class="kpi"><div class="kpi-k" id="homeCals">Calories: —</div><div class="kpi-v">Goal</div></div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <div class="row wrap">
+            <button class="primary big" id="btnGoScheduled" type="button">Start today’s workout</button>
+            <button class="secondary big" id="btnQuickLogFood" type="button">Log food</button>
+          </div>
+
+          <div class="spacer"></div>
+          <div class="muted small" id="homeMotivation">Stack W's.</div>
+        </div>
+
+        <div class="card bright">
+          <div class="card-title">This week</div>
+          <div class="muted small">4 lifts · 3 cardio · surplus · sleep.</div>
+          <div class="spacer"></div>
+          <div class="week-grid" id="homeWeek">—</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-workouts">
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Choose your lift</div>
+          <div class="muted small">Tap a day to load the workout. Nothing renders until you choose.</div>
+          <div class="spacer"></div>
+          <div class="split-grid">
+            <button class="split-btn s1" data-day="Day 1 — Chest + Triceps">Day 1<br><span>Chest + Triceps</span></button>
+            <button class="split-btn s2" data-day="Day 2 — Back + Biceps">Day 2<br><span>Back + Biceps</span></button>
+            <button class="split-btn s3" data-day="Day 3 — Legs + Abs">Day 3<br><span>Legs + Abs</span></button>
+            <button class="split-btn s4" data-day="Day 4 — Shoulders + Arms">Day 4<br><span>Shoulders + Arms</span></button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Suggested session</div>
+          <div class="muted small" id="suggestedText">—</div>
+          <div class="spacer"></div>
+          <button class="primary" id="btnLoadSuggested" type="button">Load suggested</button>
+        </div>
+
+        <div class="card" id="loggerCard">
+          <div class="card-title">Workout logger</div>
+          <div id="loggerEmpty" class="muted small">Choose a split above (or load suggested) to begin.</div>
+
+          <div id="loggerHeader" class="logger-head" style="display:none;">
+            <div>
+              <div class="logger-day" id="loggerDay">—</div>
+              <div class="muted small" id="loggerMeta">—</div>
+            </div>
+            <button class="secondary" id="btnFinishWorkout" type="button">Finish</button>
+          </div>
+
+          <div id="exerciseList" class="exercise-list" style="display:none;"></div>
+          <div class="spacer"></div>
+          <div class="muted small" id="loggerHint" style="display:none;">Rest: 90–150s compounds · 45–75s accessories</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Week calendar</div>
+          <div class="muted small">Checks appear when you finish a workout.</div>
+          <div class="spacer"></div>
+          <div class="calendar" id="weekCalendar">—</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-nutrition">
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Today’s macros</div>
+          <div class="muted small" id="macroGoals">—</div>
+          <div class="spacer"></div>
+          <div class="macro-grid" id="macroGrid"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Add a meal</div>
+          <div class="muted small">Search foods, add them, save favorites.</div>
+          <div class="spacer"></div>
+
+          <div class="row">
+            <input class="input" id="foodSearch" placeholder="Search foods… (chicken, rice, eggs)" />
+            <button class="secondary" id="btnClearSearch" type="button">Clear</button>
+          </div>
+
+          <div class="spacer"></div>
+          <div class="food-grid" id="foodResults">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Favorites</div>
+          <div class="muted small">One tap to add your common meals.</div>
+          <div class="spacer"></div>
+          <div class="fav-grid" id="favMeals">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Today’s log</div>
+          <div class="muted small">Tap Remove to delete.</div>
+          <div class="spacer"></div>
+          <div class="meal-list" id="mealLog">—</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-progress">
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Weekly recap</div>
+          <div class="muted small">Workouts + nutrition consistency.</div>
+          <div class="spacer"></div>
+          <div class="recap" id="weeklyRecap">—</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Coming next</div>
+          <div class="muted small">Photo check-ins + weigh-in chart (we’ll add when you’re ready).</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-settings">
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Goals</div>
+          <div class="muted small">Auto-adjusts by day type (lift/cardio/rest).</div>
+          <div class="spacer"></div>
+          <div class="row wrap">
+            <label class="field"><div class="label">Protein (g)</div><input class="input" id="setProtein" type="number" step="1" /></label>
+            <label class="field"><div class="label">Lift calories</div><input class="input" id="setLiftCals" type="number" step="10" /></label>
+            <label class="field"><div class="label">Cardio calories</div><input class="input" id="setCardioCals" type="number" step="10" /></label>
+            <label class="field"><div class="label">Rest calories</div><input class="input" id="setRestCals" type="number" step="10" /></label>
+          </div>
+          <div class="spacer"></div>
+          <button class="primary" id="btnSaveSettings" type="button">Save</button>
+        </div>
+
+        <div class="card danger">
+          <div class="card-title">Reset data</div>
+          <div class="muted small">Clears data on this device.</div>
+          <div class="spacer"></div>
+          <button class="ghost" id="btnReset" type="button">Reset everything</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" aria-hidden="true">—</div>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
